@@ -43,3 +43,24 @@ verify this:
 kubectl get deployment
 
 ```
+
+```bash
+
+kubectl get pods -l app=backend -o wide
+
+```
+
+DNS Resolution for the backend service
+Instead of reaching the Service by its IP address, you can assign a friendly name and rely on the DNS to translate it to an IP address.
+
+And that's precisely what happens when you create a Service in Kubernetes: a DNS record is created with the Fully Qualified Domain Name (FQDN) of <service-name>.<namespace>.svc.cluster.local.
+
+You can access services and pods using DNS names instead of IP addresses.
+
+CoreDNS is the component that resolves these DNS names to their corresponding IP addresses.
+
+It is deployed as a ClusterIP service named kube-dns and managed by a Deployment in the kube-system namespace.
+
+When a pod needs to resolve a service name, it sends a DNS query to the kube-dns service.
+
+CoreDNS processes the request and resolves the service name to the appropriate ClusterIP.
